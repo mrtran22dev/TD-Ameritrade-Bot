@@ -1,0 +1,10 @@
+{
+  "endpoint": {
+    "prod": "https://api.tdameritrade.com"
+  },
+
+  "marketData": "/v1/marketdata/{symbol}/pricehistory",
+  "apiKey": "<enter your tdameritrade api key>",
+  "accessToken": "<enter your tdameritrade access token>"
+}
+
