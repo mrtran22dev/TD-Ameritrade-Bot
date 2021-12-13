@@ -1,0 +1,3 @@
+[console_scripts]
+baseline = baseline.__main__:main
+

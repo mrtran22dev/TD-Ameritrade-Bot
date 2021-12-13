@@ -1,0 +1,129 @@
+Metadata-Version: 2.1
+Name: baseline
+Version: 1.2.1
+Summary: Easy string baseline.
+Home-page: https://github.com/dmgass/baseline
+Author: Dan Gass
+Author-email: dan.gass@gmail.com
+Maintainer: Dan Gass
+Maintainer-email: dan.gass@gmail.com
+License: MIT License ; http://opensource.org/licenses/MIT
+Download-URL: https://github.com/dmgass/baseline
+Keywords: compare baseline string test
+Platform: any
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 2
+Classifier: Programming Language :: Python :: 2.7
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.6
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: Implementation :: CPython
+Classifier: Topic :: Text Processing
+Requires-Python: !=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,>=2.7.0
+Requires-Dist: setuptools (>=39.0.1)
+Requires-Dist: enum34 (>=1.1.6) ; python_version < "3.0"
+Provides-Extra: doc
+Requires-Dist: Sphinx (>=1.6.7) ; extra == 'doc'
+Requires-Dist: sphinx-rtd-theme ; extra == 'doc'
+Requires-Dist: sphinxcontrib-programoutput ; extra == 'doc'
+Provides-Extra: test
+Requires-Dist: nose ; extra == 'test'
+Requires-Dist: unittest2 ; (python_version < "3.0") and extra == 'test'
+Requires-Dist: mock (>=2.0.0) ; (python_version < "3.0") and extra == 'test'
+
+###############################
+[baseline] Easy String Baseline
+###############################
+
+.. image:: https://readthedocs.org/projects/baseline/badge/?version=latest
+   :target: https://baseline.readthedocs.io/en/latest/?badge=latest
+   :alt: Documentation Status
+
+.. image:: https://travis-ci.org/dmgass/baseline.svg?branch=master
+   :target: https://travis-ci.org/dmgass/baseline
+
+This tool streamlines creation and maintenance of tests which compare string
+output against a baseline. It offers a mechanism to compare a string against
+a baselined copy and update the baselined copy to match the new value when a
+mismatch occurs. The update process includes a manual step to facilitate a
+review of the change before acceptance. The tool uses multi-line string format
+for string baselines to improve readability for human review.
+
+
+***********
+Quick Start
+***********
+
+Create an empty baseline with a triple quoted multi-line string. Place
+the ending triple quote on a separate line and indent it to the level
+you wish the string baseline update to be indented to. Add a compare of
+the string being tested to the baseline string. Then save the file as
+``fox.py``:
+
+.. code-block:: python
+
+    from baseline import Baseline
+
+    expected = Baseline("""
+        """)
+
+    test_string = """THE QUICK BROWN FOX
+        JUMPS
+    OVER THE LAZY DOG."""
+
+    assert test_string == expected
+
+
+Run ``fox.py`` and observe that the ``assert`` raises an exception since
+the strings are not equal.  Because the comparison failed, the tool located
+the triple quoted baseline string in the source file and updated it with the
+mis-compared value. When the interpreter exited, the tool saved the updated
+source file but changed the file name to ``fox.py.update``:
+
+.. code-block:: python
+
+    from baseline import Baseline
+
+    expected = Baseline("""
+        THE QUICK BROWN FOX
+            JUMPS
+        OVER THE LAZY DOG.
+        """)
+
+    test_string = """THE QUICK BROWN FOX
+        JUMPS
+    OVER THE LAZY DOG."""
+
+    assert test_string == expected
+
+
+After reviewing the change with your favorite file differencing tool,
+accept the change by either manually overwriting the original file or use
+the ``baseline`` command line tool to scan the directory for updated
+scripts:
+
+.. code-block:: shell
+
+    $ python -m baseline *
+    Found baseline updates for:
+      fox.py
+
+    Hit [ENTER] to accept, [Ctrl-C] to cancel
+
+
+Pressing ``Enter`` causes the tool to overwrite the scripts with
+the new baseline updates and remove the temporary ``.py.update`` files.
+
+Run ``fox.py`` again and observe the ``assert`` does not raise an exception
+nor is a copy of the source file update generated. If in the future the test
+value changes, the ``assert`` raises an exception and causes a new source file
+update to be generated. Simply repeat the review and acceptance step and you
+are back in business!
+
+
