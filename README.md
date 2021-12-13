@@ -13,12 +13,11 @@ TD Ameritrade API setup link to create API key + access token: https://developer
 
 Replace the following key/value pairs with your API key + access token values:</br>
 
-"apiKey": "enter your tdameritrade api key",</br>
-"accessToken": "enter your tdameritrade access token"
+<b><i>"apiKey": "enter your tdameritrade api key",</b></i></br>
+<b><i>"accessToken": "enter your tdameritrade access token"</b></i>
 
-If no API key or access token is provided, then the response will be unable to retrieve data from TD Ameritrade and return a 500 status code.  In this case, the program will use the default dummy/test data (TSLA-10day-5min.json) already included for mock test.</br></br>
-Run the program by running the main.py file and user will be prompted to enter a stock ticker symbol, then the following menu will appear for trade strategy selection (below).  
-Upon user selection, then the calculated EMA/RSI indicator values will appear + simulated trade transaction, followed by the net gain/loss.</br>
+If no API key or access token is provided, then the request will be unable to retrieve data from TD Ameritrade and return a 500 status code.  In this case, the program will use the default dummy/test data (TSLA-10day-5min.json) already included for mock test.</br></br>
+Run the program by running the main.py file and user will be prompted to enter a stock ticker symbol, then the following menu will appear for trade strategy selection (below).  Upon user selection, then the calculated EMA/RSI indicator values will appear + simulated trade transaction, followed by the net gain/loss.</br>
 
 <pre>
 +-----------------------------------------------+
